@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'juice-shop'
         IMAGE_TAG  = "${env.BUILD_NUMBER}"
-        REGISTRY   = 'docker.io/your-namespace'
+        REGISTRY   = 'docker.io/blackcyber07'
     }
 
     stages {
