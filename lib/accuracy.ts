@@ -72,3 +72,5 @@ function storeVerdict (challengeKey: ChallengeKey, phase: Phase, verdict: boolea
     solves[challengeKey].attempts[phase]++
   }
 }
+
+
