@@ -4,7 +4,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'juice-shop'
-        IMAGE_TAG  = "${env.BUILD_NUMBER}"
+        IMAGE_TAG  = "${BUILD_NUMBER}"
         REGISTRY   = 'docker.io/muneeswaran02'
     }
 
@@ -17,10 +17,11 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh """
-                    docker build -t ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} .
-                    docker tag ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} ${REGISTRY}/${IMAGE_NAME}:latest
-                """
+                sh '''
+                    docker build -t "$REGISTRY/$IMAGE_NAME:$IMAGE_TAG" .
+                    docker tag "$REGISTRY/$IMAGE_NAME:$IMAGE_TAG" \
+                        "$REGISTRY/$IMAGE_NAME:latest"
+                '''
             }
         }
 
@@ -47,13 +48,14 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh """
-                    docker rm -f ${IMAGE_NAME} || true
+                sh '''
+                    docker rm -f "$IMAGE_NAME" || true
+
                     docker run -d \
-                        --name ${IMAGE_NAME} \
+                        --name "$IMAGE_NAME" \
                         -p 3000:3000 \
-                        ${REGISTRY}/${IMAGE_NAME}:latest
-                """
+                        "$REGISTRY/$IMAGE_NAME:latest"
+                '''
             }
         }
     }
